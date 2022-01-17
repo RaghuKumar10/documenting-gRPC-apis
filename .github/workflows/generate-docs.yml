@@ -16,3 +16,17 @@ jobs:
         run: |
           pwd
           ls -a
+      - name: pull protoc-gen-doc image
+        run: |
+          docker pull pseudomuto/protoc-gen-doc
+
+      - name: generate gRPC doc
+        run: |
+          docker run --rm \
+            -v $(pwd)/doc:/out \
+            -v $(pwd)/proto:/protos \
+            pseudomuto/protoc-gen-doc
+
+      - name: print generated grpc doc
+        run: |
+          cat doc/index.html
